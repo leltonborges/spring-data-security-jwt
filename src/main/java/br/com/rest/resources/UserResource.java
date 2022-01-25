@@ -5,18 +5,15 @@ import br.com.rest.dtos.UserDTO;
 import br.com.rest.entities.User;
 import br.com.rest.services.UserService;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.PropertyMap;
-import org.modelmapper.TypeMap;
-import org.modelmapper.spi.ConstantMapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.websocket.server.PathParam;
 import java.util.List;
 import java.util.stream.Collectors;
+
 
 @RestController
 @RequestMapping("/users")
