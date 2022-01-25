@@ -43,6 +43,9 @@ public class UserService implements Serializable {
     }
 
     public <S extends User> S save(S entity) {
+        System.out.println("\n\n\n");
+        System.out.println(entity);
+        System.out.println("\n\n\n");
         return userRepository.save(entity);
     }
 

@@ -32,9 +32,9 @@ public class User implements Serializable {
     @NotBlank
     private String password;
 
+    @Enumerated(EnumType.ORDINAL)
     @CollectionTable(name = "user_role")
     @ElementCollection(fetch = FetchType.EAGER)
-    @NotBlank
     private Set<Role> roles = new HashSet<>();
 
 
@@ -50,4 +50,5 @@ public class User implements Serializable {
     public int hashCode() {
         return Objects.hash(id, userName);
     }
+
 }

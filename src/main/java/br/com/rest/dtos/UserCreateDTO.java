@@ -29,5 +29,5 @@ public class UserCreateDTO implements Serializable {
     @NotBlank
     private String password;
     @NotBlank
-    private Set<Role> roles = new HashSet<>();
+    private Set<Role> roles;
 }
