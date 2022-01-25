@@ -1,7 +1,9 @@
 package br.com.rest.services;
 
+import br.com.rest.dtos.UserCreateDTO;
 import br.com.rest.entities.User;
 import br.com.rest.repositories.UserRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
@@ -18,6 +20,8 @@ public class UserService implements Serializable {
     private static final long serialVersionUID = 8219290633698032358L;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private ModelMapper mapper;
 
     public User findByUserName(String userName) {
         return userRepository
@@ -49,5 +53,9 @@ public class UserService implements Serializable {
 
     public <S extends User> Optional<S> findOne(Example<S> example) {
         return userRepository.findOne(example);
+    }
+
+    public User from(UserCreateDTO userCreateDTO){
+        return  mapper.map(userCreateDTO, User.class);
     }
 }
