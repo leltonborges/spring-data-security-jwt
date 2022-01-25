@@ -6,11 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.Set;
 
 @Data
@@ -19,6 +17,7 @@ import java.util.Set;
 public class UserCreateDTO implements Serializable {
     private static final long serialVersionUID = 4345717468841932527L;
 
+    private Long id;
     @NotBlank
     @JsonProperty("full_name")
     private String fullName;

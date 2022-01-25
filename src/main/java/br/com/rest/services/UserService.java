@@ -4,6 +4,7 @@ import br.com.rest.dtos.UserCreateDTO;
 import br.com.rest.dtos.UserDTO;
 import br.com.rest.entities.User;
 import br.com.rest.repositories.UserRepository;
+import br.com.rest.services.excepitons.UserNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
@@ -27,7 +28,7 @@ public class UserService implements Serializable {
     public User findByUserName(String userName) {
         return userRepository
                 .findByUserName(userName)
-                .orElse(new User());
+                .orElseThrow(() -> new UserNotFoundException("Not Found userName: "+ userName));
     }
 
     public List<User> findAll() {
@@ -43,16 +44,17 @@ public class UserService implements Serializable {
     }
 
     public <S extends User> S save(S entity) {
-        System.out.println("\n\n\n");
-        System.out.println(entity);
-        System.out.println("\n\n\n");
         return userRepository.save(entity);
     }
 
-    public User findById(Long aLong) {
+    public User findById(Long id) {
         return userRepository
-                .findById(aLong)
-                .orElse(new User());
+                .findById(id)
+                .orElseThrow(() -> new UserNotFoundException("Not Found id: "+ id));
+    }
+
+    public void delete(User entity) {
+        userRepository.delete(entity);
     }
 
     public <S extends User> Optional<S> findOne(Example<S> example) {
