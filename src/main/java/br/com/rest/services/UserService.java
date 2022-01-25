@@ -1,6 +1,7 @@
 package br.com.rest.services;
 
 import br.com.rest.dtos.UserCreateDTO;
+import br.com.rest.dtos.UserDTO;
 import br.com.rest.entities.User;
 import br.com.rest.repositories.UserRepository;
 import org.modelmapper.ModelMapper;
@@ -57,5 +58,13 @@ public class UserService implements Serializable {
 
     public User from(UserCreateDTO userCreateDTO){
         return  mapper.map(userCreateDTO, User.class);
+    }
+
+    public User from(UserDTO userDTO){
+        return mapper.map(userDTO, User.class);
+    }
+
+    public UserDTO fromUserDTO(User user){
+        return mapper.map(user, UserDTO.class);
     }
 }

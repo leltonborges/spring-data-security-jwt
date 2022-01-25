@@ -1,6 +1,7 @@
 package br.com.rest.configs;
 
 import br.com.rest.dtos.UserCreateDTO;
+import br.com.rest.dtos.UserDTO;
 import br.com.rest.entities.User;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
@@ -13,7 +14,9 @@ public class ModelMapperConfig {
     public ModelMapper mapper(){
         ModelMapper mapper = new ModelMapper();
         mapper.createTypeMap(UserCreateDTO.class, User.class);
+        mapper.createTypeMap(UserDTO.class, User.class);
         mapper.createTypeMap(User.class, UserCreateDTO.class);
+        mapper.createTypeMap(User.class, UserDTO.class);
 
         return mapper;
     }
