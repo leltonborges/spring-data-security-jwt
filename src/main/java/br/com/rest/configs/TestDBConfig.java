@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.transaction.Transactional;
 import java.util.Set;
@@ -16,14 +17,16 @@ import java.util.Set;
 public class TestDBConfig implements CommandLineRunner {
     @Autowired
     private UserService userService;
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     @Override
     @Transactional
     public void run(String... args) throws Exception {
         User lia = new User(null, "Lia Alves", "lia@gmail.com",
-                        "lia123", Set.of(Role.ROLE_CLIENT, Role.ROLE_ADMIN));
+                        passwordEncoder.encode("123"), Set.of(Role.ROLE_CLIENT, Role.ROLE_ADMIN));
         User bob = new User(null, "Bob Alves", "bob@gmail.com",
-                        "lia123", Set.of(Role.ROLE_CLIENT, Role.ROLE_OPERATOR));
+                passwordEncoder.encode("123"), Set.of(Role.ROLE_CLIENT, Role.ROLE_OPERATOR));
 
         userService.save(lia);
         userService.save(bob);

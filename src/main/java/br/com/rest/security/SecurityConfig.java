@@ -34,10 +34,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and()
                 .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-//                .disable()
-                .and()
+                .disable()
+//                .and()
                 .authorizeRequests().antMatchers("/", "/index").permitAll()
-//                .anyRequest().authenticated()
+                .anyRequest().authenticated()
                 .and().logout().logoutSuccessUrl("/index")
                 .logoutUrl("/logout");
 

@@ -22,17 +22,17 @@ public class JWTTokenAuthenticationService {
     @Autowired
     private UserSSService userSSService;
 
-    @Value("${security.jwt.expiration}")
-    private static long EXPIRATION_TIME;
+//    @Value("${security.jwt.expiration}")
+    private static long EXPIRATION_TIME = 86400000;
 
-    @Value("${security.jwt.security_key}")
-    private static String SECURITY_KEY;
+//    @Value("${security.jwt.security_key}")
+    private static String SECURITY_KEY = "SECUR!TY_K3Y*";
 
-    @Value("${security.jwt.token_prefix}")
-    private static String TOKEN_PREFIX;
+//    @Value("${security.jwt.token_prefix}")
+    private static String TOKEN_PREFIX ="Bearer";
 
-    @Value("${security.jwt.header_string}")
-    private static String HEADER_STRING;
+//    @Value("${security.jwt.header_string}")
+    private static String HEADER_STRING ="Authorization";
 
     public void addAuthorization(HttpServletResponse response, String userName) throws IOException {
         String token = Jwts.builder()

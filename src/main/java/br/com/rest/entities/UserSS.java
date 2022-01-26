@@ -1,6 +1,7 @@
 package br.com.rest.entities;
 
 import br.com.rest.entities.enuns.Role;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,6 +11,8 @@ import java.util.Set;
 
 @Data
 public class UserSS implements UserDetails {
+
+    @JsonProperty("user_name")
     private String userName;
     private String password;
     private Set<Role> roles;
