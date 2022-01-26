@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 @Data
 @AllArgsConstructor
 public class StanderError {
-    private String message;
+    private long timestamp;
     private String error;
     private HttpStatus status;
     private String path;
