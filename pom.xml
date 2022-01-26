@@ -11,7 +11,7 @@
     <groupId>br.com.rest</groupId>
     <artifactId>spring-boot_security_jwt</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
     <name>spring-boot_security_JWT</name>
     <description>spring-boot_security_JWT</description>
     <properties>
