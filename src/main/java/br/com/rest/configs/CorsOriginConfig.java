@@ -13,6 +13,6 @@ public class CorsOriginConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.
                 addMapping("/users/**").allowedMethods("GET")
-                .allowedOrigins("http://localhost:81", "http://localhost:8080");
+                .allowedOrigins("http://localhost:81");
     }
 }

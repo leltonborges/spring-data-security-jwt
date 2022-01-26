@@ -1,8 +1,10 @@
 package br.com.rest.entities.enuns;
 
+import org.springframework.security.core.GrantedAuthority;
+
 import java.util.Arrays;
 
-public enum Role{
+public enum Role implements GrantedAuthority {
     ROLE_OPERATOR(1, "OPERATOR"),
     ROLE_ADMIN(2, "ADMIN"),
     ROLE_CLIENT(3, "CLIENT");
@@ -28,5 +30,10 @@ public enum Role{
                 .filter(r -> r.id.equals(id))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Not found idRole: "+ id));
+    }
+
+    @Override
+    public String getAuthority() {
+        return name;
     }
 }
