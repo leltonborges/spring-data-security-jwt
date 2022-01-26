@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserService implements Serializable {
+public class UserService implements Serializable{
     private static final long serialVersionUID = 8219290633698032358L;
     @Autowired
     private UserRepository userRepository;
@@ -72,4 +72,5 @@ public class UserService implements Serializable {
     public UserDTO fromUserDTO(User user){
         return mapper.map(user, UserDTO.class);
     }
+
 }

@@ -1,23 +1,17 @@
-package br.com.rest.dtos;
+package br.com.rest.entities;
 
 import br.com.rest.entities.enuns.Role;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.io.Serial;
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Data
-public class UserDTODetails implements UserDetails, Serializable {
-    @Serial
-    private static final long serialVersionUID = 2757613940505274517L;
-    private String password;
+public class UserSS implements UserDetails {
     private String userName;
+    private String password;
     private Set<Role> roles;
 
     @Override
@@ -37,21 +31,21 @@ public class UserDTODetails implements UserDetails, Serializable {
 
     @Override
     public boolean isAccountNonExpired() {
-        return true;
+        return false;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return false;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true;
+        return false;
     }
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return false;
     }
 }
