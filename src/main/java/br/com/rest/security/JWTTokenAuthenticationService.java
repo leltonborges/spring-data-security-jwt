@@ -22,21 +22,21 @@ public class JWTTokenAuthenticationService {
     @Autowired
     private UserSSService userSSService;
 
-    @Value("${security.jwt.expiration}")
-    private long EXPIRATION_TIME;
-//    private final static long EXPIRATION_TIME = 86400000;
+//    @Value("${security.jwt.expiration}")
+//    private long EXPIRATION_TIME;
+    private final static long EXPIRATION_TIME = 86400000;
 
 //    @Value("${security.jwt.security_key}")
 //    private final String SECURITY_KEY = null;
     private final static byte[] SECURITY_KEY = Base64.getEncoder().encode("SECUR!TY_K3Y".getBytes());
 
-    @Value("${security.jwt.token_prefix}")
-    private String TOKEN_PREFIX;
-//    private final static String TOKEN_PREFIX = "Bearer ";
+//    @Value("${security.jwt.token_prefix}")
+//    private String TOKEN_PREFIX;
+    private final static String TOKEN_PREFIX = "Bearer ";
 
-    @Value("${security.jwt.header_string}")
-    private String HEADER_STRING;
-//    private final static String HEADER_STRING = "Authorization";
+//    @Value("${security.jwt.header_string}")
+//    private String HEADER_STRING;
+    private final static String HEADER_STRING = "Authorization";
 
     public void addAuthorization(HttpServletResponse response, String userName) throws IOException {
         String token = generatToken(userName);
@@ -68,34 +68,6 @@ public class JWTTokenAuthenticationService {
         }
     }
 
-
-    public String getUserName(String token) {
-        Claims claims = getClaims(token);
-        if (claims != null) {
-            return claims.getSubject();
-        }
-        return null;
-    }
-
-    public Date getDateToke(String token) {
-        Claims claims = getClaims(token);
-        if (claims != null) {
-            return claims.getExpiration();
-        }
-        return null;
-    }
-
-    public boolean validateToken(String token) {
-        String userName = getUserName(token);
-        Date dateExpiration = getDateToke(token);
-        if (dateExpiration != null && userName != null
-                && dateExpiration.before(new Date(System.currentTimeMillis()))) {
-            return true;
-        }
-
-        return false;
-    }
-
     private Claims getClaims(String token) {
         try {
             return Jwts.parser().setSigningKey(SECURITY_KEY)
@@ -112,6 +84,7 @@ public class JWTTokenAuthenticationService {
                 .signWith(SignatureAlgorithm.HS512, SECURITY_KEY)
                 .setSubject(userName)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
+//                .setExpiration(new Date(System.currentTimeMillis() + 10000 ))
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .compact();
     }

@@ -12,22 +12,24 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolationException;
 
 @RestControllerAdvice
 public class ResponseHandlerException extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<StanderError> psqlException(DataIntegrityViolationException ex, HttpServletRequest request){
-        StanderError err = new StanderError(System.currentTimeMillis(), "duplicating key value violates the uniqueness constraint",
+    @ExceptionHandler({DataIntegrityViolationException.class, ConstraintViolationException.class})
+    public ResponseEntity<StanderError> psqlException(Exception ex, HttpServletRequest request){
+        StanderError err = new StanderError(System.currentTimeMillis(), ex.getCause().getCause().getMessage(),
                 HttpStatus.CONFLICT, request.getRequestURI());
         return ResponseEntity.status(HttpStatus.CONFLICT).body(err);
     }
 
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<StanderError> psqlException(UserNotFoundException ex, HttpServletRequest request){
+
         StanderError err = new StanderError(System.currentTimeMillis(), ex.getMessage(),
-                HttpStatus.NOT_FOUND, request.getRequestURI());
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(err);
+                HttpStatus.BAD_REQUEST, request.getRequestURI());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
     }
 
     @ExceptionHandler(JWTErrorExceptions.class)

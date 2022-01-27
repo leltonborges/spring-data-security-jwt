@@ -31,7 +31,7 @@ public class UserService implements Serializable{
     }
 
     public <S extends User> S save(S entity) {
-        entity.setPassword(passwordEncoder.encode(entity.getPassword()));
+//        entity.setPassword(passwordEncoder.encode(entity.getPassword()));
         return userRepository.save(entity);
     }
 
