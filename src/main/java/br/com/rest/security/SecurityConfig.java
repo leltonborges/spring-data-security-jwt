@@ -4,6 +4,7 @@ import br.com.rest.services.UserSSService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -42,7 +43,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .disable()
 //                .and()
                 .authorizeRequests().antMatchers("/", "/index").permitAll()
-                                    .anyRequest().authenticated()
+                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                .anyRequest().authenticated()
                 .and().logout().logoutSuccessUrl("/index")
                 .logoutUrl("/logout");
 

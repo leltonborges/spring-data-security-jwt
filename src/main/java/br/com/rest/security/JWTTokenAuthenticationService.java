@@ -5,11 +5,10 @@ import br.com.rest.services.UserSSService;
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,23 +16,27 @@ import java.io.IOException;
 import java.util.Base64;
 import java.util.Date;
 
-@Component
+@Configuration
 public class JWTTokenAuthenticationService {
 
     @Autowired
     private UserSSService userSSService;
 
-    //    @Value("${security.jwt.expiration}")
-    private final static long EXPIRATION_TIME = 86400000;
+    @Value("${security.jwt.expiration}")
+    private long EXPIRATION_TIME;
+//    private final static long EXPIRATION_TIME = 86400000;
 
-    //    @Value("${security.jwt.security_key}")
+//    @Value("${security.jwt.security_key}")
+//    private final String SECURITY_KEY = null;
     private final static byte[] SECURITY_KEY = Base64.getEncoder().encode("SECUR!TY_K3Y".getBytes());
 
-    //    @Value("${security.jwt.token_prefix}")
-    private final static String TOKEN_PREFIX = "Bearer ";
+    @Value("${security.jwt.token_prefix}")
+    private String TOKEN_PREFIX;
+//    private final static String TOKEN_PREFIX = "Bearer ";
 
-    //    @Value("${security.jwt.header_string}")
-    private final static String HEADER_STRING = "Authorization";
+    @Value("${security.jwt.header_string}")
+    private String HEADER_STRING;
+//    private final static String HEADER_STRING = "Authorization";
 
     public void addAuthorization(HttpServletResponse response, String userName) throws IOException {
         String token = generatToken(userName);
@@ -48,8 +51,11 @@ public class JWTTokenAuthenticationService {
                 """.formatted(token));
     }
 
-    public Authentication getAuthentication(HttpServletRequest request) {
+    public Authentication getAuthentication(HttpServletRequest request, HttpServletResponse response) {
         String token = request.getHeader(HEADER_STRING);
+
+        liberacaoCors(response);
+
         if (token != null) {
             Claims claims = getClaims(token.replaceFirst(TOKEN_PREFIX, "").trim());
             String userName = claims.getSubject();
@@ -61,6 +67,7 @@ public class JWTTokenAuthenticationService {
             return null;
         }
     }
+
 
     public String getUserName(String token) {
         Claims claims = getClaims(token);
@@ -107,5 +114,21 @@ public class JWTTokenAuthenticationService {
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .compact();
+    }
+
+    private void liberacaoCors(HttpServletResponse response) {
+        if(response.getHeader("Access-Control-Allow-Origin") == null)
+            response.addHeader("Access-Control-Allow-Origin", "*");
+
+        if(response.getHeader("Access-Control-Allow-Headers") == null)
+            response.addHeader("Access-Control-Allow-Headers", "*");
+
+        if(response.getHeader("Access-Control-Request-Headers") == null)
+            response.addHeader("Access-Control-Request-Headers", "*");
+
+        if(response.getHeader("Access-Control-Allow-Methods") == null)
+            response.addHeader("Access-Control-Allow-Methods", "*");
+
+
     }
 }
