@@ -8,9 +8,7 @@ import br.com.rest.services.excepitons.UserNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
@@ -25,25 +23,15 @@ public class UserService implements Serializable{
     @Autowired
     private ModelMapper mapper;
 
-    public User findByUserName(String userName) {
-        return userRepository
-                .findByUserName(userName)
-                .orElseThrow(() -> new UserNotFoundException("Not Found userName: "+ userName));
-    }
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     public List<User> findAll() {
         return userRepository.findAll();
     }
 
-    public List<User> findAll(Sort sort) {
-        return userRepository.findAll(sort);
-    }
-
-    public Page<User> findAll(Pageable pageable) {
-        return userRepository.findAll(pageable);
-    }
-
     public <S extends User> S save(S entity) {
+        entity.setPassword(passwordEncoder.encode(entity.getPassword()));
         return userRepository.save(entity);
     }
 

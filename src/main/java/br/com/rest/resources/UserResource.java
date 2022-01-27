@@ -6,6 +6,7 @@ import br.com.rest.entities.User;
 import br.com.rest.services.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -21,8 +22,14 @@ public class UserResource {
     @Autowired
     private ModelMapper mapper;
 
+    @Cacheable("findByIdCache")
     @GetMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<User> findById(@PathVariable Long id) {
+        try {
+            Thread.sleep(6000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return ResponseEntity.status(HttpStatus.OK).body(userService.findById(id));
     }
 
